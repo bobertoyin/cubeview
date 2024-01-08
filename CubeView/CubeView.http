@@ -1,0 +1,6 @@
+@CubeView_HostAddress = http://localhost:5217
+
+GET {{CubeView_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
