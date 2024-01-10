@@ -11,10 +11,10 @@ public class UserController : ControllerBase
 {
 
     private readonly ILogger<UserController> _logger;
-    private readonly UserManager<IdentityUser> _userManager;
-    private readonly SignInManager<IdentityUser> _signInManager;
+    private readonly UserManager<CubeReviewer> _userManager;
+    private readonly SignInManager<CubeReviewer> _signInManager;
 
-    public UserController(ILogger<UserController> logger, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+    public UserController(ILogger<UserController> logger, UserManager<CubeReviewer> userManager, SignInManager<CubeReviewer> signInManager)
     {
         _logger = logger;
         _userManager = userManager;
@@ -31,9 +31,16 @@ public class UserController : ControllerBase
     [HttpGet]
     async public Task<IActionResult> CurrentUser()
     {
-        IdentityUser? user = await _userManager.GetUserAsync(User);
+        CubeReviewer? user = await _userManager.GetUserAsync(User);
         if (user != null) {
-            return Ok(user);
+            ReviewerView userView = new ReviewerView{
+                UserName = user.UserName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Joined = user.Joined,
+            };
+            return Ok(userView);
         }
         return NotFound();
     }
